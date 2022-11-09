@@ -59,9 +59,15 @@ def getPrereqs(major):
 
         if abr =="": abr = getMajorAbr(c)
         info = soup.find(class_="InfoSISDescription")
+        splitAt = ""
         if ("Prerequisite:" in str(info)):
+            splitAt= "Prerequisite:"
+        if ("Prerequisites:" in str(info)):
+            splitAt= "Prerequisites:"
+        
+        if(splitAt != ""):
             try:
-                sentence = str(info).split("Prerequisite:")[1]
+                sentence = str(info).split(splitAt)[1]
                 if(";" in sentence):
                     sentence = sentence.split(";")[0]
                 print(c)
@@ -124,7 +130,7 @@ def readClasses(major):
     return json_object
 
 def readPrereqs(major): 
-    with open(f"prereqs/{major}.json", 'r') as openfile:
+    with open(f"rev-prereqs/{major}.json", 'r') as openfile:
         json_object = json.load(openfile)
     return json_object
 
@@ -164,7 +170,7 @@ def makeFlowChart(major):
     keys = [x[0] for x in li]
     with open(f"prereqs/{major}-list.txt", "w") as f:
         f.write(str(keys))
-
+    return
     abrv = getMajorAbr(li[0][0])
     hlevel = 0
     prev_level = 0
@@ -244,5 +250,5 @@ def makeFlowChart(major):
 major = "Mathematics"     
 # getAllClasses(major)     
 # getPrereqs(major)
-reverseReqs(major)
-# makeFlowChart(major)
+# reverseReqs(major)
+makeFlowChart(major)
