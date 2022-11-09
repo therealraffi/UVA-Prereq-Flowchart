@@ -12,20 +12,42 @@
 </head>
 
 <body>
-    <div id="anchor-line">
-    </div>
+    <div id="anchor-line"></div>
     <div id="anchor">
         <div id="button">
             Upstream (Show prereqs for class)
         </div>
+        <div id="anchor-drop"></div>
     </div>
     <script>
         var reverse = false
         $(document).ready(function () {
-            main(reverse)
-            $('#button').css('background-color', 'aqua')
-            $('#button').click(function () {
-                window.location.href = "./gangmu.html";
+            loadDropdown()
+
+            var url_string = window.location.href
+            var url = new URL(url_string);
+            var major = url.searchParams.get("major");
+
+            if(major != null) {
+                // try{
+                //     main(reverse, major)
+                // }
+                // catch {
+                //     alert("Sorry this major hasn't been configured!")
+                // }
+                main(reverse, major)
+
+                $('#button').css('background-color', 'aqua')
+                $('#button').click(function () {
+                    window.location.href = "./gangmu.html?major="+major;
+                });
+            }
+
+            $(function() {
+                $("#dropdown").change(function() {
+                    var major = $("#dropdown").val()
+                    window.location.href = "./index.html?major="+major;
+                });
             });
         });
     </script>

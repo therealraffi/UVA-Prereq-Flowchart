@@ -12,20 +12,35 @@
 </head>
 
 <body>
-    <div id="anchor-line">
-    </div>
+    <div id="anchor-line"></div>
     <div id="anchor">
         <div id="button">
-            Downstream (Show classes where given class is a prereq)
+            Downstream (Show classes where selected class is a prereq)
         </div>
+        <div id="anchor-drop"></div>
     </div>
     <script>
-        reverse = true
+        var reverse = true
         $(document).ready(function () {
-            main(reverse)
-            $('#button').css('background-color', 'gray')
-            $('#button').click(function () {
-                window.location.href = "./index.html";
+            loadDropdown()
+
+            var url_string = window.location.href
+            var url = new URL(url_string);
+            var major = url.searchParams.get("major");
+
+            if(major != null) {
+                main(reverse, major)
+                $('#button').css('background-color', 'gray')
+                $('#button').click(function () {
+                    window.location.href = "./index.html?major="+major;
+                });
+            }
+
+            $(function() {
+                $("#dropdown").change(function() {
+                    var major = $("#dropdown").val()
+                    window.location.href = "./index.html?major="+major;
+                });
             });
         });
     </script>

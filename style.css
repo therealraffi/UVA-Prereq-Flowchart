@@ -1,13 +1,17 @@
 .node {
     display: inline-block;
     text-align: center;
-    background-color: aquamarine;
+    background-color: aquamarine; 
     padding: 40px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.5em;
     margin: 15px;
     border-radius: 100px;
     cursor: pointer;
+}
+
+.noChild {
+    background-color: rgb(237, 255, 249) !important; 
 }
 
 #button {

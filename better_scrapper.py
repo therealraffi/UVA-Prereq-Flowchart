@@ -6,9 +6,29 @@ from schemdraw import flow
 from schemdraw import elements as elm
 import json
 import random
+import ndjson
 
 SPRING_SEM = "1232"
 FALL_SEM = "1228"
+
+def getMajors():    
+    URL = "https://louslist.org/"
+    page = requests.get(URL)
+
+    soup = BeautifulSoup(page.content, "html.parser")
+    majors_html = soup.find_all(class_="IndexTable4")
+    majors = ""
+
+    for m in majors_html:
+        majors_href = str(m.find("a"))
+        try:
+            majors = majors + majors_href.split("Group=")[1].split('"')[0] + "\n"
+        except:
+            pass
+    
+    with open("majors.txt", 'w') as f:
+        li = majors.split("\n")
+        f.writelines(str(li))
 
 def getClasses(major, sem):
     url = f"https://louslist.org/page.php?Semester={sem}&Type=Group&Group={major}"
@@ -25,7 +45,10 @@ def getClasses(major, sem):
             class_id = a_href.get_text()
             href = str(href)
             class_name = href.split('<tr class="Section')[1].split('"')[0].split(" ")[-1]
-            classes[class_name] = [class_id, sem]
+            try:
+                int(class_id)
+                classes[class_name] = [class_id, sem]
+            except: pass
         except: pass
     
     return classes
@@ -39,9 +62,8 @@ def getAllClasses(major):
         if spring_class not in classes:
             classes[spring_class] = spring_classes[spring_class]
 
-    json_object = json.dumps(classes, indent=4)
-    with open(f"prereqs/{major}.json", "w") as outfile:
-        outfile.write(json_object)
+    with open(f"classes/{major}.json", "w") as outfile:
+        json.dump(classes, outfile)
 
     return classes
 
@@ -64,14 +86,19 @@ def getPrereqs(major):
             splitAt= "Prerequisite:"
         if ("Prerequisites:" in str(info)):
             splitAt= "Prerequisites:"
-        
+        if ("Completed " in str(info)):
+            splitAt= "Completed "
+
         if(splitAt != ""):
             try:
                 sentence = str(info).split(splitAt)[1]
                 if(";" in sentence):
                     sentence = sentence.split(";")[0]
                 sentence = sentence.replace("</td>", "")
+
                 prereqs = processReqs(sentence, abr)
+                if(c == "CS3140"):
+                    print(c, prereqs)
                 parents[c] = prereqs
             except Exception as e: 
                 print(e)
@@ -79,9 +106,8 @@ def getPrereqs(major):
         else:
             parents[c] = []
     
-    json_object = json.dumps(parents, indent=4)
     with open(f"prereqs/{major}.json", "w") as outfile:
-        outfile.write(json_object)
+        json.dump(parents, outfile)
 
 def processReqs(sentence, major):
     li = sentence.split(" ")
@@ -98,10 +124,11 @@ def processReqs(sentence, major):
             word = word.replace(p, '')
         try:
             int(word)
-            cname = prev + word
-            coreq.append(cname)
-            print(cname, sentence)
-            cname = ""
+            if(len(word) > 3):
+                cname = prev + word
+                coreq.append(cname)
+                # print(cname, sentence)
+                cname = ""
         except:
             pass
 
@@ -112,8 +139,8 @@ def processReqs(sentence, major):
                 prev = word.upper()
     if len(coreq) > 0:
         reqs.append(coreq)
-    print(reqs)
-    print()
+    # print(reqs)
+    # print()
     return list(reqs)
 
 def getMajorAbr(string):
@@ -150,11 +177,16 @@ def reverseReqs(major):
                 else:
                     reverse[v].append(key)
 
-    json_object = json.dumps(reverse, indent=4)
     with open(f"rev-prereqs/{major}.json", "w") as outfile:
-        outfile.write(json_object)
+        json.dump(reverse, outfile)
 
-def makeFlowChart(major):
+def readMajors():
+    with open("majors.txt", "r") as f:
+        s = f.read()
+        li = s.strip('][').replace("'", "").split(', ')
+        return li
+
+def getValidFiles(major):
     valid_nodes = {}
     nodes = {}
     loc = {}
@@ -177,85 +209,88 @@ def makeFlowChart(major):
     keys = sorted(keys, key=lambda x: x[len( getMajorAbr(x)):])
     with open(f"prereqs/{major}-list.txt", "w") as f:
         f.write(str(keys))
-    return
-    abrv = getMajorAbr(li[0][0])
-    hlevel = 0
-    prev_level = 0
-    dd = 8
-    colorint = 0
-    colors = ['red', 'orange', 'yellow', 'yellowgreen', 'green', 'blue', 'indigo', 'violet']
 
-    with schemdraw.Drawing(show=False) as dwg:
-        for pair in li:
-            parent = pair[0]
-            children = pair[1]
+def getValidFilesMajors():
+    majors = readMajors()
+    allClasses = {}
+    for major in majors:
+        try:
+            with open(f"prereqs/{major}-list.txt", "r") as f:
+                s = f.read()
+                li = s.strip('][').replace("'", "").split(', ')
+                allClasses[major] = li
+        except Exception as e: print(e)
+    with open("All-list.json", "w") as f:
+        json.dump(allClasses, f)
+    return allClasses
 
-            vlevel = int(parent.replace(abrv, "")[0])
+def getPrereqsMajors():
+    majors = readMajors()
+    allClasses = {}
+    for major in majors:
+        try:
+            with open(f"prereqs/{major}.json", "r") as f:
+                allClasses[major] = json.load(f)
+        except: pass
+    with open("All-prereq.json", "w") as f:
+        json.dump(allClasses, f)
+    return allClasses
 
-            if (vlevel != prev_level):
-                hlevel = 0
-            prev_level = vlevel
+def reverseReqsMajors():
+    majors = readMajors()
+    allClasses = {}
+    for major in majors:
+        try:
+            with open(f"rev-prereqs/{major}.json", "r") as f:
+                allClasses[major] = json.load(f)
+        except: pass
+    with open("All-rev-prereq.json", "w") as f:
+        json.dump(allClasses, f)
+    return allClasses
 
-            s = ""
-            lvl = 0
-            cutoff = 20
-            for child in children:
-                s += child + ", "
-                if len(s) // cutoff > lvl:
-                    s += '\n'
-                    lvl = len(s) // cutoff
-            children_sentence = s[:-1]
+def updateScript():
+    all_classes = getValidFilesMajors()
+    all_prereqs = getPrereqsMajors()
+    rev = reverseReqsMajors()
 
-            a = flow.Circle(r=1.4).at((hlevel * dd, -vlevel * dd)).label(parent).fill('lightblue')
-            b = flow.Box(w=2.8, h=1.2).at((hlevel * dd, -vlevel * dd-.8)).label(children_sentence, fontsize=8).fill('lightblue')
+    places = ["var all_classes =", "var all_prereqs =", "var all_rev_prereqs =", "// START RIGHT HERE"]
+    data = [all_classes, all_prereqs, rev]
 
-            nodes[parent] = a
-            loc[parent] = [hlevel, vlevel]
-            dwg += a
-            dwg += b
+    with open("scripts/main.js", "r+") as f:
+        old = f.read() # read everything in the file
 
-            hlevel += 1
-        
-        for pair in li:
-            parent = pair[0]
-            children = pair[1]
+        d1 = all_classes
+        s1 = "var all_classes ="
+        s2 = "var all_prereqs ="
+        p1 = old.index(s1) + len(s1)
+        p2 = old.index(s2)
+        old = old.replace(old[p1:p2], str(d1) + "\n\n\n")
 
-            pnode = nodes[parent]
-            plevel = int(parent.replace(abrv, "")[0])
-            color = colors[colorint]
-            colorint = (colorint + 1) % len(colors)
+        d1 = all_prereqs
+        s1 = "var all_prereqs ="
+        s2 = "var all_rev_prereqs ="
+        p1 = old.index(s1) + len(s1)
+        p2 = old.index(s2)
+        old = old.replace(old[p1:p2], str(d1) + "\n\n\n")
 
-            for child in children:
-                if child in nodes:
-                    clevel = int(child.replace(abrv, "")[0])
-                    cnode = nodes[child]
-                    upper_limit = 5
-                    dx = (loc[parent][0] - loc[child][0])
-                    dy = (loc[parent][1] - loc[child][1])
+        d1 = rev
+        s1 = "var all_rev_prereqs ="
+        s2 = "// START RIGHT HERE"
+        p1 = old.index(s1) + len(s1)
+        p2 = old.index(s2)
+        old = old.replace(old[p1:p2], str(d1) + "\n\n\n")
 
-                    if abs(dy) == 0 and dx < 0:
-                        if abs(dx) <= 1:
-                            dwg += elm.Arrow().color(color).at(pnode.E).to(cnode.W)
-                        else:
-                            dwg += elm.Arc2(arrow='->').color(color).at(pnode.E).to(cnode.W)
-                    elif abs(dy) == 0 and dx > 0:
-                        if abs(dx) <= 1:
-                            dwg += elm.Arrow().at(pnode.W).color(color).to(cnode.E)
-                        else:
-                            dwg += elm.Arc2(arrow='->').color(color).at(pnode.W).to(cnode.E)
-                    elif dy == 1:
-                        dwg += elm.Arrow().color(color).at(pnode.N).to(cnode.S)
-                    elif dy > 1 and dx <= 2:
-                        dwg += elm.Arc2(arrow='->').color(color).at(pnode.N).to(cnode.W)
-                    elif dy > 1 and dx > 2:
-                        dwg += elm.Arc2( arrow='->').color(color).at(pnode.N).to(cnode.S)
-                    else:
-                        dwg += elm.Arc2(arrow='->').color(color).at(pnode.N).to(cnode.S)
+    with open("main.js", "w") as f2:
+        f2.write(old)
 
-    dwg.save(fname=f"charts/{major}.svg")
 
-major = "Mathematics"     
-# getAllClasses(major)     
-# getPrereqs(major)
-reverseReqs(major)
-makeFlowChart(major)
+majors = ["CompSci"]
+# majors = readMajors()
+
+# for major in majors:
+#     # getAllClasses(major)     
+#     # getPrereqs(major)
+#     # reverseReqs(major)
+#     getValidFiles(major)
+
+updateScript()
