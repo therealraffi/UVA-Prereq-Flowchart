@@ -1,0 +1,39 @@
+.node {
+    display: inline-block;
+    text-align: center;
+    background-color: aquamarine;
+    padding: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.5em;
+    margin: 15px;
+    border-radius: 100px;
+    cursor: pointer;
+}
+
+.level {
+    width: 100%;
+    float: left;
+    margin-bottom: 5vh;
+}
+
+#anchor {
+    position: absolute;
+    top: 0;
+}
+
+#anchor-line {
+    height: 100%;
+    width: 100%;
+}
+
+line {
+    stroke:rgb(0,0,0);
+    stroke-width:2; 
+    marker-end:url(#markerArrow);
+}
+
+.arrow {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}

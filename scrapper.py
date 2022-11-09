@@ -6,7 +6,8 @@ from schemdraw import flow
 from schemdraw import elements as elm
 import json
 
-SEM = "1232"
+SPRING_SEM = "1232"
+FALL_SEM = "1228"
 
 def getMajors():    
     URL = "https://louslist.org/"
@@ -26,8 +27,8 @@ def getMajors():
     with open("majors.txt", 'w') as f:
         f.writelines(majors)
 
-def getClasses(major):
-    url = f"https://louslist.org/page.php?Semester={SEM}&Type=Group&Group={major}"
+def getClasses(major, sem):
+    url = f"https://louslist.org/page.php?Semester={sem}&Type=Group&Group={major}"
     page = requests.get(url)
     soup = BeautifulSoup(page.content, "html.parser")
 
@@ -41,13 +42,23 @@ def getClasses(major):
             class_id = a_href.get_text()
             href = str(href)
             class_name = href.split('<tr class="Section')[1].split('"')[0].split(" ")[-1]
-            classes[class_name] = class_id
+            classes[class_name] = [class_id, sem]
         except: pass
     
+    return classes
+
+def getAllClasses(major):
+    classes = getClasses(major, FALL_SEM)
+    spring_classes = getClasses(major, SPRING_SEM)
+
+    for spring_class in spring_classes:
+        if spring_class not in classes:
+            classes[spring_class] = spring_classes[spring_class]
+
     json_object = json.dumps(classes, indent=4)
     with open(f"classes/{major}.json", "w") as outfile:
         outfile.write(json_object)
-
+    
     return classes
 
 def readClasses(major): 
@@ -60,16 +71,16 @@ def readPrereqs(major):
         json_object = json.load(openfile)
     return json_object
 
-def getPrereqs(major, classes):
-    url = f"https://louslist.org/sectiontip.php?Semester={SEM}&ClassNumber="
+def getPrereqs(major):
     abr = ""
     parents = {}
-    valid_classes = set()
-    for c in classes:
-        valid_classes.add(c)
+    classes = readClasses(major)
 
     for c in classes:
-        page = requests.get(f"https://louslist.org/sectiontip.php?Semester={SEM}&ClassNumber={classes[c]}")
+        cid = classes[c][0]
+        sem = classes[c][1]
+
+        page = requests.get(f"https://louslist.org/sectiontip.php?Semester={sem}&ClassNumber={cid}")
         soup = BeautifulSoup(page.content, "html.parser")
 
         if abr =="": abr = getMajorAbr(c)
@@ -79,7 +90,7 @@ def getPrereqs(major, classes):
             try:
                 prereqs = s.split("Enrollment Requirements")[1].split("Requirement Designation")[0]
                 prereqs = prereqs.split("<td>")[1].split("</td>")[0]
-                prereqs = processReqs(prereqs, abr, valid_classes)
+                prereqs = processReqs(prereqs, abr, classes)
                 parents[c] = prereqs
             except: pass
     
@@ -123,10 +134,11 @@ def processReqs(sentence, major, valid_classes):
     
     return reqs
 
-def makeFlowChart(major, parents):
+def makeFlowChart(major):
     valid_nodes = {}
     nodes = {}
     li = []
+    parents = readPrereqs(major)
 
     for k in parents:
         if len(parents[k]) != 0:
@@ -180,9 +192,6 @@ def makeFlowChart(major, parents):
 
     dwg.save(fname=f"charts/{major}.svg")
 
-major = "CompSci"                
-# getClasses(major)
-classes = readClasses(major)
-# getPrereqs(major, classes)
-parents = readPrereqs(major)
-makeFlowChart(major, parents)
+major = "Mathematics"          
+
+makeFlowChart(major)
