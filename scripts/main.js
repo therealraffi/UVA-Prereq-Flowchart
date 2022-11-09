@@ -1,8 +1,8 @@
 function main(reverse) {
-    var math_classes = ['APMA3080', 'MATH1210', 'MATH1220', 'MATH1310', 'MATH1320', 'MATH2310', 'MATH2315', 'MATH3000', 'MATH3100', 'MATH3250', 'MATH3310', 'MATH3351', 'MATH3354', 'MATH4040', 'MATH4110', 'MATH4140', 'MATH4220', 'MATH4250', 'MATH4300', 'MATH4310', 'MATH4330', 'MATH4651', 'MATH4652', 'MATH4720', 'MATH4750', 'MATH4770', 'MATH5030', 'MATH5080', 'MATH5310', 'MATH5352', 'MATH5651', 'MATH5652', 'MATH5700', 'MATH5770', 'MATH7310', 'MATH7340', 'MATH7410', 'MATH7751', 'MATH7752', 'MATH7800', 'MATH7820']
+    var math_classes = ['MATH1210', 'MATH1220', 'MATH1310', 'MATH1320', 'MATH2310', 'MATH2315', 'MATH3000', 'APMA3080', 'MATH3100', 'MATH3250', 'MATH3310', 'MATH3315', 'MATH3340', 'MATH3351', 'MATH3354', 'MATH4040', 'MATH4110', 'MATH4140', 'MATH4210', 'MATH4220', 'MATH4250', 'MATH4300', 'MATH4310', 'MATH4330', 'MATH4651', 'MATH4652', 'MATH4720', 'MATH4750', 'MATH4770', 'MATH4900', 'MATH4901', 'MATH5030', 'MATH5080', 'MATH5310', 'MATH5352', 'MATH5651', 'MATH5652', 'MATH5653', 'MATH5700', 'MATH5770', 'MATH7310', 'MATH7340', 'MATH7410', 'MATH7600', 'MATH7751', 'MATH7752', 'MATH7800', 'MATH7810', 'MATH7820', 'MATH7830', 'MATH8750']
     var math_set = new Set(math_classes)
     if (reverse) {
-        var math_prereqs = {
+        var math_prereqs ={
             "MATH1210": [
                 "MATH1220"
             ],
@@ -14,8 +14,21 @@ function main(reverse) {
                 "MATH3000",
                 "MATH3100",
                 "MATH3250",
+                "MATH3310",
+                "MATH3351",
+                "MATH3354",
                 "MATH4040",
                 "MATH5080"
+            ],
+            "MATH2310": [
+                "MATH3100",
+                "MATH3340",
+                "MATH4720",
+                "MATH4770",
+                "MATH4330",
+                "MATH4750",
+                "MATH5030",
+                "MATH5700"
             ],
             "MATH3000": [
                 "MATH4040",
@@ -32,17 +45,22 @@ function main(reverse) {
             ],
             "MATH3354": [
                 "MATH4040",
+                "MATH4140",
+                "MATH5653",
                 "MATH4652",
                 "MATH4750",
-                "MATH5030"
+                "MATH5030",
+                "MATH5080"
             ],
             "MATH3100": [
                 "MATH4110",
                 "MATH4140"
             ],
             "MATH3351": [
+                "MATH4110",
                 "MATH4140",
                 "MATH4220",
+                "MATH4651",
                 "MATH4720",
                 "MATH4770",
                 "MATH4250",
@@ -56,19 +74,20 @@ function main(reverse) {
                 "MATH4300",
                 "MATH4720"
             ],
-            "MATH2310": [
-                "MATH4720",
-                "MATH4770",
-                "MATH4330",
-                "MATH4750",
-                "MATH5030",
-                "MATH5700"
+            "MATH4210": [
+                "MATH4220"
             ],
             "MATH7340": [
                 "MATH7410"
             ],
             "MATH7310": [
                 "MATH7410"
+            ],
+            "MATH5770": [
+                "MATH7600",
+                "MATH7820",
+                "MATH7800",
+                "MATH8750"
             ],
             "MATH5651": [
                 "MATH7751",
@@ -78,19 +97,26 @@ function main(reverse) {
                 "MATH7751",
                 "MATH7752"
             ],
+            "MATH7800": [
+                "MATH7810",
+                "MATH7830"
+            ],
             "MATH5310": [
                 "MATH7820",
                 "MATH7310"
             ],
-            "MATH5770": [
-                "MATH7820",
-                "MATH7800"
+            "MATH2315": [
+                "MATH3315",
+                "MATH4330"
+            ],
+            "MATH4900": [
+                "MATH4901"
             ],
             "APMA3080": [
                 "MATH4250"
             ],
-            "MATH2315": [
-                "MATH4330"
+            "MATH4310": [
+                "MATH4250"
             ],
             "MATH4651": [
                 "MATH4652"
@@ -99,7 +125,8 @@ function main(reverse) {
                 "MATH7800"
             ]
         }
-    } else {
+    }
+     else {
         var math_prereqs = {
             "MATH1140": [],
             "MATH1190": [],
@@ -128,7 +155,8 @@ function main(reverse) {
             ],
             "MATH3100": [
                 [
-                    "MATH1320"
+                    "MATH1320",
+                    "MATH2310"
                 ]
             ],
             "MATH3250": [
@@ -136,10 +164,22 @@ function main(reverse) {
                     "MATH1320"
                 ]
             ],
-            "MATH3310": [],
+            "MATH3310": [
+                [
+                    "MATH1320"
+                ]
+            ],
             "MATH3350": [],
-            "MATH3351": [],
-            "MATH3354": [],
+            "MATH3351": [
+                [
+                    "MATH1320"
+                ]
+            ],
+            "MATH3354": [
+                [
+                    "MATH1320"
+                ]
+            ],
             "MATH4900": [],
             "MATH4993": [],
             "MATH8999": [],
@@ -147,7 +187,11 @@ function main(reverse) {
             "MATH9998": [],
             "MATH9999": [],
             "MATH1150": [],
-            "MATH3340": [],
+            "MATH3340": [
+                [
+                    "MATH2310"
+                ]
+            ],
             "MATH4040": [
                 [
                     "MATH1320"
@@ -161,6 +205,9 @@ function main(reverse) {
             "MATH4110": [
                 [
                     "MATH3100"
+                ],
+                [
+                    "MATH3351"
                 ]
             ],
             "MATH4140": [
@@ -170,7 +217,8 @@ function main(reverse) {
                 ],
                 [
                     "MATH3000",
-                    "MATH3310"
+                    "MATH3310",
+                    "MATH3354"
                 ]
             ],
             "MATH4220": [
@@ -178,7 +226,8 @@ function main(reverse) {
                     "MATH3250"
                 ],
                 [
-                    "MATH3351"
+                    "MATH3351",
+                    "MATH4210"
                 ]
             ],
             "MATH4300": [
@@ -191,7 +240,11 @@ function main(reverse) {
                     "MATH3310"
                 ]
             ],
-            "MATH4651": [],
+            "MATH4651": [
+                [
+                    "MATH3351"
+                ]
+            ],
             "MATH4720": [
                 [
                     "MATH2310",
@@ -210,7 +263,11 @@ function main(reverse) {
                     "MATH3351"
                 ]
             ],
-            "MATH5653": [],
+            "MATH5653": [
+                [
+                    "MATH3354"
+                ]
+            ],
             "MATH5896": [],
             "MATH7000": [],
             "MATH7340": [],
@@ -224,14 +281,22 @@ function main(reverse) {
                 ]
             ],
             "MATH7559": [],
-            "MATH7600": [],
+            "MATH7600": [
+                [
+                    "MATH5770"
+                ]
+            ],
             "MATH7751": [
                 [
                     "MATH5651",
                     "MATH5652"
                 ]
             ],
-            "MATH7810": [],
+            "MATH7810": [
+                [
+                    "MATH7800"
+                ]
+            ],
             "MATH7820": [
                 [
                     "MATH5310",
@@ -253,8 +318,16 @@ function main(reverse) {
             "MATH9410": [],
             "MATH9820": [],
             "MATH9950": [],
-            "MATH3315": [],
-            "MATH4901": [],
+            "MATH3315": [
+                [
+                    "MATH2315"
+                ]
+            ],
+            "MATH4901": [
+                [
+                    "MATH4900"
+                ]
+            ],
             "MATH1110": [],
             "MATH1160": [],
             "MATH4250": [
@@ -263,7 +336,8 @@ function main(reverse) {
                     "APMA3080"
                 ],
                 [
-                    "MATH3310"
+                    "MATH3310",
+                    "MATH4310"
                 ]
             ],
             "MATH4330": [
@@ -309,7 +383,8 @@ function main(reverse) {
                 ],
                 [
                     "MATH3000",
-                    "MATH3310"
+                    "MATH3310",
+                    "MATH3354"
                 ]
             ],
             "MATH5700": [
@@ -336,12 +411,20 @@ function main(reverse) {
                     "MATH5770"
                 ]
             ],
-            "MATH7830": [],
+            "MATH7830": [
+                [
+                    "MATH7800"
+                ]
+            ],
             "MATH8310": [],
             "MATH8410": [],
             "MATH8450": [],
             "MATH8720": [],
-            "MATH8750": [],
+            "MATH8750": [
+                [
+                    "MATH5770"
+                ]
+            ],
             "MATH8851": [],
             "MATH8853": []
         }

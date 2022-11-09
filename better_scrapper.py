@@ -70,7 +70,7 @@ def getPrereqs(major):
                 sentence = str(info).split(splitAt)[1]
                 if(";" in sentence):
                     sentence = sentence.split(";")[0]
-                print(c)
+                sentence = sentence.replace("</td>", "")
                 prereqs = processReqs(sentence, abr)
                 parents[c] = prereqs
             except Exception as e: 
@@ -130,6 +130,11 @@ def readClasses(major):
     return json_object
 
 def readPrereqs(major): 
+    with open(f"prereqs/{major}.json", 'r') as openfile:
+        json_object = json.load(openfile)
+    return json_object
+
+def readRevPrereqs(major): 
     with open(f"rev-prereqs/{major}.json", 'r') as openfile:
         json_object = json.load(openfile)
     return json_object
@@ -154,7 +159,8 @@ def makeFlowChart(major):
     nodes = {}
     loc = {}
     li = []
-    parents = readPrereqs(major)
+    keys = []
+    parents = readRevPrereqs(major)
 
     for k in parents:
         if len(parents[k]) != 0:
@@ -164,10 +170,11 @@ def makeFlowChart(major):
                 valid_nodes[child] = []
     
     for k in valid_nodes:
+        abrv = getMajorAbr(k)
+        keys.append(k)
         li.append([k, valid_nodes[k]])
-
     li = sorted(li, key=lambda x: x[0])
-    keys = [x[0] for x in li]
+    keys = sorted(keys, key=lambda x: x[len( getMajorAbr(x)):])
     with open(f"prereqs/{major}-list.txt", "w") as f:
         f.write(str(keys))
     return
@@ -250,5 +257,5 @@ def makeFlowChart(major):
 major = "Mathematics"     
 # getAllClasses(major)     
 # getPrereqs(major)
-# reverseReqs(major)
+reverseReqs(major)
 makeFlowChart(major)
