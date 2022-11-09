@@ -76,6 +76,9 @@ function main(reverse, major) {
         else if(math_prereqs[key] == 0) {
             noChild = "noChild"
         }
+        else {
+            noChild = "hasChild"
+        }
 
         console.log(math_prereqs[key])
 
@@ -194,7 +197,8 @@ function main(reverse, major) {
         $('.node').click(function () {
 
             $(".arrow").hide()
-            $(".node").css("background-color", "aquamarine")
+            $(".hasChild").css("background-color", "aquamarine")
+            $(".noChild").css("background-color", "rgb(237, 255, 249)")
             $(".arrow-" + idName).show()
 
             var visited = new Set()
