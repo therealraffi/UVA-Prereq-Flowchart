@@ -79,17 +79,21 @@ def getPrereqs(major):
 
 def processReqs(sentence, major):
     li = sentence.split(" ")
-    reqs = set()
+    coreq = []
+    reqs = []
     cname = ""
     punc = ",./');("
     prev = ""
     for word in li:
+        if word == "and" and len(coreq) > 0:
+            reqs.append(coreq)
+            coreq = []
         for p in punc:
             word = word.replace(p, '')
         try:
             int(word)
             cname = prev + word
-            reqs.add(cname)
+            coreq.append(cname)
             print(cname, sentence)
             cname = ""
         except:
@@ -100,9 +104,9 @@ def processReqs(sentence, major):
                 int(word)
             except:
                 prev = word.upper()
-                # if(len(prev) < 4):
-                #     print(prev, sentence) 
-                #     print()
+    if len(coreq) > 0:
+        reqs.append(coreq)
+    print(reqs)
     print()
     return list(reqs)
 
@@ -129,10 +133,11 @@ def reverseReqs(major):
     reverse = {}
     for key in classes:
         for val in classes[key]:
-            if val not in reverse:
-                reverse[val] = [key]
-            else:
-                reverse[val].append(key)
+            for v in val:
+                if v not in reverse:
+                    reverse[v] = [key]
+                else:
+                    reverse[v].append(key)
 
     json_object = json.dumps(reverse, indent=4)
     with open(f"rev-prereqs/{major}.json", "w") as outfile:
@@ -239,5 +244,5 @@ def makeFlowChart(major):
 major = "Mathematics"     
 # getAllClasses(major)     
 # getPrereqs(major)
-# reverseReqs(major)
-makeFlowChart(major)
+reverseReqs(major)
+# makeFlowChart(major)

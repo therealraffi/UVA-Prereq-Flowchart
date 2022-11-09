@@ -12,14 +12,14 @@ var math_prereqs = {
         "MATH3250",
         "MATH4040"
     ],
+    "MATH3000": [
+        "MATH4040"
+    ],
     "MATH3310": [
         "MATH4040",
         "MATH4310"
     ],
     "MATH3354": [
-        "MATH4040"
-    ],
-    "MATH3000": [
         "MATH4040"
     ],
     "MATH3250": [
@@ -31,11 +31,11 @@ var math_prereqs = {
     "MATH7310": [
         "MATH7410"
     ],
-    "MATH5652": [
+    "MATH5651": [
         "MATH7751",
         "MATH7752"
     ],
-    "MATH5651": [
+    "MATH5652": [
         "MATH7751",
         "MATH7752"
     ],

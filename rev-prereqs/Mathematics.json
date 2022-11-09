@@ -12,15 +12,15 @@
         "MATH3250",
         "MATH4040"
     ],
-    "MATH3354": [
-        "MATH4040"
-    ],
     "MATH3000": [
         "MATH4040"
     ],
     "MATH3310": [
         "MATH4040",
         "MATH4310"
+    ],
+    "MATH3354": [
+        "MATH4040"
     ],
     "MATH3250": [
         "MATH4300"
@@ -31,26 +31,26 @@
     "MATH7310": [
         "MATH7410"
     ],
-    "MATH5652": [
-        "MATH7751",
-        "MATH7752"
-    ],
     "MATH5651": [
         "MATH7751",
         "MATH7752"
     ],
-    "MATH5770": [
-        "MATH7820",
-        "MATH7800"
+    "MATH5652": [
+        "MATH7751",
+        "MATH7752"
     ],
     "MATH5310": [
         "MATH7820",
         "MATH7310"
     ],
-    "MATH3351": [
-        "MATH5700"
+    "MATH5770": [
+        "MATH7820",
+        "MATH7800"
     ],
     "MATH2310": [
+        "MATH5700"
+    ],
+    "MATH3351": [
         "MATH5700"
     ],
     "MATH5352": [
