@@ -104,6 +104,20 @@ def readClasses(major):
         json_object = json.load(openfile)
     return json_object
 
+def reverseReqs(major):
+    classes = readPrereqs(major)
+    reverse = {}
+    for key in classes:
+        for val in classes[key]:
+            if val not in reverse:
+                reverse[val] = [key]
+            else:
+                reverse[val].append(key)
+
+    json_object = json.dumps(reverse, indent=4)
+    with open(f"rev-prereqs/{major}.json", "w") as outfile:
+        outfile.write(json_object)
+
 def readPrereqs(major): 
     with open(f"prereqs/{major}.json", 'r') as openfile:
         json_object = json.load(openfile)
@@ -210,4 +224,4 @@ def makeFlowChart(major):
 
 major = "Mathematics"     
 # getAllClasses(major)     
-makeFlowChart(major)
+reverseReqs(major)

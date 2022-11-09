@@ -1,85 +1,145 @@
 var math_prereqs = {
-    "MATH2315": [
+    "MATH1140": [],
+    "MATH1190": [],
+    "MATH1210": [],
+    "MATH1220": [],
+    "MATH1310": [],
+    "MATH1320": [],
+    "MATH2310": [],
+    "MATH2315": [],
+    "MATH3000": [],
+    "MATH3100": [
+        "MATH2315",
+        "MATH2120",
+        "MATH2310",
+        "MATH1320"
+    ],
+    "MATH3250": [],
+    "MATH3310": [],
+    "MATH3350": [],
+    "MATH3351": [],
+    "MATH3354": [],
+    "MATH4900": [],
+    "MATH4993": [],
+    "MATH8999": [],
+    "MATH9995": [],
+    "MATH9998": [],
+    "MATH9999": [],
+    "MATH1150": [],
+    "MATH3340": [],
+    "MATH4040": [],
+    "MATH4110": [
+        "MATH3351",
+        "MATH4651",
         "MATH3100",
-        "MATH4720",
+        "MATH3315"
+    ],
+    "MATH4140": [
+        "MATH4310",
         "MATH3315",
-        "MATH4750",
-        "MATH5030"
-    ],
-    "MATH2120": [
-        "MATH3100",
-        "MATH4750",
-        "MATH5030"
-    ],
-    "MATH2310": [
-        "MATH3100",
-        "MATH4720",
-        "MATH4750",
-        "MATH5030"
-    ],
-    "MATH1320": [
+        "MATH4651",
+        "MATH3310",
+        "MATH3000",
+        "MATH3354",
+        "MATH3351",
         "MATH3100"
     ],
-    "MATH3351": [
-        "MATH4110",
-        "MATH4140",
-        "MATH4720",
-        "MATH4652",
-        "MATH4660",
-        "MATH4750"
+    "MATH4220": [],
+    "MATH4300": [],
+    "MATH4310": [],
+    "MATH4651": [],
+    "MATH4720": [
+        "MATH2310",
+        "MATH3315",
+        "MATH3250",
+        "MATH4651",
+        "MATH4250",
+        "MATH3351",
+        "MATH2315"
     ],
-    "MATH4651": [
-        "MATH4110",
-        "MATH4140",
-        "MATH4720",
-        "MATH4652",
-        "MATH4750"
+    "MATH4770": [
+        "MATH4310",
+        "MATH3310"
     ],
-    "MATH3100": [
-        "MATH4110",
-        "MATH4140"
-    ],
+    "MATH5653": [],
+    "MATH5896": [],
+    "MATH7000": [],
+    "MATH7340": [],
+    "MATH7370": [],
+    "MATH7410": [],
+    "MATH7559": [],
+    "MATH7600": [],
+    "MATH7751": [],
+    "MATH7810": [],
+    "MATH7820": [],
+    "MATH7900": [],
+    "MATH8510": [],
+    "MATH8559": [],
+    "MATH8620": [],
+    "MATH8852": [],
+    "MATH8855": [],
+    "MATH8880": [],
+    "MATH8998": [],
+    "MATH9010": [],
+    "MATH9250": [],
+    "MATH9310": [],
+    "MATH9360": [],
+    "MATH9410": [],
+    "MATH9820": [],
+    "MATH9950": [],
     "MATH3315": [
-        "MATH4110",
-        "MATH4140",
-        "MATH4720",
-        "MATH4652",
-        "MATH4750"
+        "MATH2315"
     ],
-    "MATH4310": [
-        "MATH4140",
-        "MATH4770"
+    "MATH4901": [
+        "MATH4900"
     ],
-    "MATH3310": [
-        "MATH4140",
-        "MATH4770"
-    ],
-    "MATH3000": [
-        "MATH4140"
-    ],
-    "MATH3354": [
-        "MATH4140",
-        "MATH4652",
-        "MATH4660",
-        "MATH5030"
-    ],
-    "MATH3250": [
-        "MATH4720"
-    ],
-    "MATH4250": [
-        "MATH4720"
-    ],
-    "MATH4900": [
-        "MATH4901"
-    ],
-    "MATH3080": [
-        "MATH4652",
-        "MATH4750"
-    ],
+    "MATH1110": [],
+    "MATH1160": [],
+    "MATH4250": [],
+    "MATH4330": [],
     "MATH4652": [
-        "MATH4660",
-        "MATH5030"
-    ]
+        "MATH3315",
+        "MATH3080",
+        "MATH4651",
+        "MATH3354",
+        "MATH3351"
+    ],
+    "MATH4660": [
+        "MATH3354",
+        "MATH3351",
+        "MATH4652"
+    ],
+    "MATH4750": [
+        "MATH2310",
+        "MATH3315",
+        "MATH4651",
+        "MATH3080",
+        "MATH3351",
+        "MATH2315",
+        "MATH2120"
+    ],
+    "MATH4840": [],
+    "MATH5030": [
+        "MATH2310",
+        "MATH3354",
+        "MATH2120",
+        "MATH2315",
+        "MATH4652"
+    ],
+    "MATH5080": [],
+    "MATH5700": [],
+    "MATH7010": [],
+    "MATH7310": [],
+    "MATH7752": [],
+    "MATH7800": [],
+    "MATH7830": [],
+    "MATH8310": [],
+    "MATH8410": [],
+    "MATH8450": [],
+    "MATH8720": [],
+    "MATH8750": [],
+    "MATH8851": [],
+    "MATH8853": []
 }
 
 var math_classes = ['MATH1320', 'MATH2120', 'MATH2310', 'MATH2315', 'MATH3000', 'MATH3080', 'MATH3100', 'MATH3250', 'MATH3310', 'MATH3315', 'MATH3351', 'MATH3354', 'MATH4110', 'MATH4140', 'MATH4250', 'MATH4310', 'MATH4651', 'MATH4652', 'MATH4660', 'MATH4720', 'MATH4750', 'MATH4770', 'MATH4900', 'MATH4901', 'MATH5030']
