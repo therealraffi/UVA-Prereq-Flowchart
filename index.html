@@ -13,31 +13,22 @@
 
 <body>
     <div id="anchor-line">
-        <!-- <div class="arrow">
-            <svg height="300" width="300" style="z-index: 2;">
-                <defs>
-                    <marker id="markerArrow" markerWidth="13" markerHeight="13" refX="2" refY="6" orient="auto">
-                        <path d="M2,2 L2,11 L10,6 L2,2" style="fill: #000000;" />
-                    </marker>
-                </defs>
-        
-                <line x1="50" y1="30" x2="200" y2="100" />
-            </svg>
-        </div>
-        <div class="arrow">
-            <svg height="1000" width="1000" style="z-index: 2;">
-                <defs>
-                    <marker id="markerArrow" markerWidth="13" markerHeight="13" refX="2" refY="6" orient="auto">
-                        <path d="M2,2 L2,11 L10,6 L2,2" style="fill: #000000;" />
-                    </marker>
-                </defs>
-        
-                <line x1="600" y1="4000" x2="200" y2="100" />
-            </svg>
-        </div> -->
     </div>
     <div id="anchor">
+        <div id="button">
+            NOT REVERSED
+        </div>
     </div>
+    <script>
+        var reverse = false
+        $(document).ready(function () {
+            main(reverse)
+            $('#button').css('background-color', 'aqua')
+            $('#button').click(function () {
+                window.location.href = "./gangmu.html";
+            });
+        });
+    </script>
 </body>
 
 </html>
