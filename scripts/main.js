@@ -401,7 +401,7 @@ function main(reverse) {
 
                 value.forEach(element => {
                     var childCoords = getPoint(element)
-                    var name = "connector" + i
+                    var name = "connector" + key+ element
 
                     $("#anchor-line").append(`
                         <div class="arrow arrow-` + key + `" id="` + name + `">
@@ -431,7 +431,7 @@ function main(reverse) {
                 li.forEach(values => {
                     values.forEach(element => {
                         var childCoords = getPoint(element)
-                        var name = "connector" + i
+                        var name = "connector" + key+ element
 
                         $("#anchor-line").append(`
                             <div class="arrow arrow-` + key + `" id="` + name + `">
@@ -456,7 +456,6 @@ function main(reverse) {
         }
     }
 
-    var visited = new Set()
     var tovisit = []
     var blues = {}
 
@@ -465,20 +464,23 @@ function main(reverse) {
 
             $(".arrow").hide()
             $(".node").css("background-color", "aquamarine")
+            var visited = new Set()
 
             idName = String(this.id)
-            tovisit.push(idName)
-            $(".arrow-" + idName).show()
-            blue = 255
             blues = {
                 idName: 255
             }
+            console.log("#" + idName)
+            tovisit.push(idName)
+            $(".arrow-" + idName).show()
+            blue = 255
 
             while (tovisit.length != 0) {
                 var parent = tovisit.pop()
                 if (blues[parent] == undefined) {
                     blues[parent] = 255
                 }
+                visited.add(parent)
                 $(".arrow-" + parent).show()
                 $("#" + parent).css("background-color", "rgb(150, " + blues[parent] + ", " + blues[parent] + ")")
                 console.log(parent)
@@ -493,6 +495,7 @@ function main(reverse) {
                     })
                 }
             }
+            $("#" + idName).css("background-color", "rgb(150,255,255)")
 
         });
     } else {
@@ -500,27 +503,44 @@ function main(reverse) {
 
             $(".arrow").hide()
             $(".node").css("background-color", "aquamarine")
-
-            idName = String(this.id)
-            tovisit.push([idName])
             $(".arrow-" + idName).show()
-            blue = 255
+
+            var visited = new Set()
+            var hind = 0
+            var idName = String(this.id)
+
             blues = {
                 idName: 255
             }
 
+            tovisit.push([idName])
+
             while (tovisit.length != 0) {
-                console.log(tovisit)
                 var parents = tovisit.pop()
+
                 parents.forEach(parent => {
                     if (blues[parent] == undefined) {
                         blues[parent] = 255
                     }
                     $(".arrow-" + parent).show()
                     $("#" + parent).css("background-color", "rgb(150, " + blues[parent] + ", " + blues[parent] + ")")
+                    console.log(parent)
+                    console.log(hind)
+                    console.log(parents.length)
 
                     if (math_prereqs[parent] != undefined) {
                         math_prereqs[parent].forEach(child => {
+                            if(child.length > 1) {
+                                var max = 150
+                                hind = 100+ Math.floor(Math.random() * max);
+                                hind2 = 100+ Math.floor(Math.random() * max);
+                                hind3 = 100+ Math.floor(Math.random() * max);
+                                child.forEach(c => {
+                                    $("#connector" + parent+c +" line").css("stroke", "rgb("+hind3+","+hind2+","+ hind  +")")
+                                    console.log("#connector" + parent+c)
+                                    blues[c] = blues[parent] - 50
+                                })
+                            }
                             if (visited.has(child) == false) {
                                 tovisit.push(child)
                                 blues[child] = blues[parent] - 50
@@ -529,7 +549,7 @@ function main(reverse) {
                     }
                 })
             }
-
+            $("#" + idName).css("background-color", "rgb(150,255,255)")
         });
     }
 
