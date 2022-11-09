@@ -1,83 +1,59 @@
 {
-    "MATH2315": [
-        "MATH3100",
-        "MATH4720",
-        "MATH3315",
-        "MATH4750",
-        "MATH5030"
+    "MATH1210": [
+        "MATH1220"
     ],
-    "MATH2120": [
-        "MATH3100",
-        "MATH4750",
-        "MATH5030"
-    ],
-    "MATH2310": [
-        "MATH3100",
-        "MATH4720",
-        "MATH4750",
-        "MATH5030"
+    "MATH1310": [
+        "MATH1320"
     ],
     "MATH1320": [
-        "MATH3100"
-    ],
-    "MATH3351": [
-        "MATH4110",
-        "MATH4140",
-        "MATH4720",
-        "MATH4652",
-        "MATH4660",
-        "MATH4750"
-    ],
-    "MATH4651": [
-        "MATH4110",
-        "MATH4140",
-        "MATH4720",
-        "MATH4652",
-        "MATH4750"
-    ],
-    "MATH3100": [
-        "MATH4110",
-        "MATH4140"
-    ],
-    "MATH3315": [
-        "MATH4110",
-        "MATH4140",
-        "MATH4720",
-        "MATH4652",
-        "MATH4750"
-    ],
-    "MATH4310": [
-        "MATH4140",
-        "MATH4770"
-    ],
-    "MATH3310": [
-        "MATH4140",
-        "MATH4770"
-    ],
-    "MATH3000": [
-        "MATH4140"
+        "MATH2310",
+        "MATH3000",
+        "MATH3100",
+        "MATH3250",
+        "MATH4040"
     ],
     "MATH3354": [
-        "MATH4140",
-        "MATH4652",
-        "MATH4660",
-        "MATH5030"
+        "MATH4040"
+    ],
+    "MATH3000": [
+        "MATH4040"
+    ],
+    "MATH3310": [
+        "MATH4040",
+        "MATH4310"
     ],
     "MATH3250": [
-        "MATH4720"
+        "MATH4300"
     ],
-    "MATH4250": [
-        "MATH4720"
+    "MATH7340": [
+        "MATH7410"
     ],
-    "MATH4900": [
-        "MATH4901"
+    "MATH7310": [
+        "MATH7410"
     ],
-    "MATH3080": [
-        "MATH4652",
-        "MATH4750"
+    "MATH5652": [
+        "MATH7751",
+        "MATH7752"
     ],
-    "MATH4652": [
-        "MATH4660",
-        "MATH5030"
+    "MATH5651": [
+        "MATH7751",
+        "MATH7752"
+    ],
+    "MATH5770": [
+        "MATH7820",
+        "MATH7800"
+    ],
+    "MATH5310": [
+        "MATH7820",
+        "MATH7310"
+    ],
+    "MATH3351": [
+        "MATH5700"
+    ],
+    "MATH2310": [
+        "MATH5700"
+    ],
+    "MATH5352": [
+        "MATH7800"
     ]
 }

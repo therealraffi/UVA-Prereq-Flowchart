@@ -1,88 +1,64 @@
 var math_prereqs = {
-    "MATH2315": [
-        "MATH3100",
-        "MATH4720",
-        "MATH3315",
-        "MATH4750",
-        "MATH5030"
+    "MATH1210": [
+        "MATH1220"
     ],
-    "MATH2120": [
-        "MATH3100",
-        "MATH4750",
-        "MATH5030"
-    ],
-    "MATH2310": [
-        "MATH3100",
-        "MATH4720",
-        "MATH4750",
-        "MATH5030"
+    "MATH1310": [
+        "MATH1320"
     ],
     "MATH1320": [
-        "MATH3100"
-    ],
-    "MATH3351": [
-        "MATH4110",
-        "MATH4140",
-        "MATH4720",
-        "MATH4652",
-        "MATH4660",
-        "MATH4750"
-    ],
-    "MATH4651": [
-        "MATH4110",
-        "MATH4140",
-        "MATH4720",
-        "MATH4652",
-        "MATH4750"
-    ],
-    "MATH3100": [
-        "MATH4110",
-        "MATH4140"
-    ],
-    "MATH3315": [
-        "MATH4110",
-        "MATH4140",
-        "MATH4720",
-        "MATH4652",
-        "MATH4750"
-    ],
-    "MATH4310": [
-        "MATH4140",
-        "MATH4770"
+        "MATH2310",
+        "MATH3000",
+        "MATH3100",
+        "MATH3250",
+        "MATH4040"
     ],
     "MATH3310": [
-        "MATH4140",
-        "MATH4770"
-    ],
-    "MATH3000": [
-        "MATH4140"
+        "MATH4040",
+        "MATH4310"
     ],
     "MATH3354": [
-        "MATH4140",
-        "MATH4652",
-        "MATH4660",
-        "MATH5030"
+        "MATH4040"
+    ],
+    "MATH3000": [
+        "MATH4040"
     ],
     "MATH3250": [
-        "MATH4720"
+        "MATH4300"
     ],
-    "MATH4250": [
-        "MATH4720"
+    "MATH7340": [
+        "MATH7410"
     ],
-    "MATH4900": [
-        "MATH4901"
+    "MATH7310": [
+        "MATH7410"
     ],
-    "MATH3080": [
-        "MATH4652",
-        "MATH4750"
+    "MATH5652": [
+        "MATH7751",
+        "MATH7752"
     ],
-    "MATH4652": [
-        "MATH4660",
-        "MATH5030"
+    "MATH5651": [
+        "MATH7751",
+        "MATH7752"
+    ],
+    "MATH5310": [
+        "MATH7820",
+        "MATH7310"
+    ],
+    "MATH5770": [
+        "MATH7820",
+        "MATH7800"
+    ],
+    "MATH2310": [
+        "MATH5700"
+    ],
+    "MATH3351": [
+        "MATH5700"
+    ],
+    "MATH5352": [
+        "MATH7800"
     ]
 }
 
-var math_classes = ['MATH1320', 'MATH2120', 'MATH2310', 'MATH2315', 'MATH3000', 'MATH3080', 'MATH3100', 'MATH3250', 'MATH3310', 'MATH3315', 'MATH3351', 'MATH3354', 'MATH4110', 'MATH4140', 'MATH4250', 'MATH4310', 'MATH4651', 'MATH4652', 'MATH4660', 'MATH4720', 'MATH4750', 'MATH4770', 'MATH4900', 'MATH4901', 'MATH5030']
+var math_classes =['MATH1210', 'MATH1220', 'MATH1310', 'MATH1320', 'MATH2310', 'MATH3000', 'MATH3100', 'MATH3250', 'MATH3310', 'MATH3351', 'MATH3354', 'MATH4040', 'MATH4300', 'MATH4310', 'MATH5310', 'MATH5352', 'MATH5651', 'MATH5652', 'MATH5700', 'MATH5770', 'MATH7310', 'MATH7340', 'MATH7410', 'MATH7751', 'MATH7752', 'MATH7800', 'MATH7820']
 var math_set = new Set(math_classes)
 
 $(document).ready(function () {
@@ -101,15 +77,8 @@ $(document).ready(function () {
         return [text.substring(0, index) + "<br>" + text.substring(index), lvl]
     }
 
-    function getCoords(idName) {
-        var elem = document.getElementById(idName);
-        const rect = elem.getBoundingClientRect();
-        var x = (rect.left + rect.right) / 2
-        var y = (rect.top + rect.bottom) / 2
-        return [x, y]
-    }
-
     function getPoint(idName) {
+        console.log(idName)
         var target = document.getElementById(idName);
         var radius = $("#" + idName).css("width").slice(0, -2)
         var margin = $("#" + idName).css("height").slice(0, -2)

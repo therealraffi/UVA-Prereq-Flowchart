@@ -84,13 +84,13 @@ def getPrereqs(major):
         soup = BeautifulSoup(page.content, "html.parser")
 
         if abr =="": abr = getMajorAbr(c)
-        info = soup.find_all(class_="InfoSIS")
+        info = soup.find(class_="InfoSISDescription")
         for i in info:
             s = str(i)
             try:
-                prereqs = s.split("Enrollment Requirements")[1].split("Requirement Designation")[0]
-                prereqs = prereqs.split("<td>")[1].split("</td>")[0]
-                prereqs = processReqs(prereqs, abr, classes)
+                prereqs = processReqs(str(info), abr, classes)
+                if(cid == "11347"):
+                    print(prereqs)
                 parents[c] = prereqs
             except: pass
     
@@ -194,4 +194,4 @@ def makeFlowChart(major):
 
 major = "Mathematics"          
 
-makeFlowChart(major)
+getPrereqs(major)

@@ -19,38 +19,14 @@ def getClasses(major, sem):
     odd_classes = soup.find_all(class_="SectionOdd")
     classes_href = even_classes + odd_classes
     classes = {}
-    prereqs = []
-    abrv = ""
-
     for href in classes_href:
         a_href = href.find('a')
         try:
             class_id = a_href.get_text()
             href = str(href)
             class_name = href.split('<tr class="Section')[1].split('"')[0].split(" ")[-1]
-            prereq_html = soup.find(class_=class_name)
-            mouseovers = prereq_html.findAll(onmouseover=True)
-
-            if abrv == "":
-                abrv = getMajorAbr(class_name)
-
-            if "1110" in class_name:
-                print(prereq_html)
-                print(sem, class_name)
-                print(sentence)
-
-            for text in mouseovers:
-                text = str(text)
-                if "Enrollment Requirements" in text:
-                    # print(text.split("Requirements:")[1])
-                    sentence = text.split("Requirements:")[1].split("'")[0]
-                    prereqs = processReqs(sentence, abrv)
-
-            classes[class_name] = prereqs
-            prereqs = []
-            sentence = ""
-
-        except Exception as e: pass
+            classes[class_name] = [class_id, sem]
+        except: pass
     
     return classes
 
@@ -69,26 +45,65 @@ def getAllClasses(major):
 
     return classes
 
+def getPrereqs(major):
+    abr = ""
+    parents = {}
+    classes = readClasses(major)
+
+    for c in classes:
+        cid = classes[c][0]
+        sem = classes[c][1]
+
+        page = requests.get(f"https://louslist.org/sectiontip.php?Semester={sem}&ClassNumber={cid}")
+        soup = BeautifulSoup(page.content, "html.parser")
+
+        if abr =="": abr = getMajorAbr(c)
+        info = soup.find(class_="InfoSISDescription")
+        if ("Prerequisite:" in str(info)):
+            try:
+                sentence = str(info).split("Prerequisite:")[1]
+                if(";" in sentence):
+                    sentence = sentence.split(";")[0]
+                print(c)
+                prereqs = processReqs(sentence, abr)
+                parents[c] = prereqs
+            except Exception as e: 
+                print(e)
+                parents[c] = []
+        else:
+            parents[c] = []
+    
+    json_object = json.dumps(parents, indent=4)
+    with open(f"prereqs/{major}.json", "w") as outfile:
+        outfile.write(json_object)
+
 def processReqs(sentence, major):
     li = sentence.split(" ")
     reqs = set()
     cname = ""
-    next = False
-    punc = ",./')("
-
+    punc = ",./');("
+    prev = ""
     for word in li:
         for p in punc:
-            word.replace(p, '')
-        
+            word = word.replace(p, '')
         try:
             int(word)
-            cname = major + word
+            cname = prev + word
             reqs.add(cname)
-            next = False
+            print(cname, sentence)
             cname = ""
         except:
             pass
-    
+
+        if(word.isupper() or word.lower() == major.lower()):
+            try:
+                int(word)
+            except:
+                prev = word.upper()
+                # if(len(prev) < 4):
+                #     print(prev, sentence) 
+                #     print()
+    print()
     return list(reqs)
 
 def getMajorAbr(string):
@@ -101,6 +116,11 @@ def getMajorAbr(string):
 
 def readClasses(major): 
     with open(f"classes/{major}.json", 'r') as openfile:
+        json_object = json.load(openfile)
+    return json_object
+
+def readPrereqs(major): 
+    with open(f"prereqs/{major}.json", 'r') as openfile:
         json_object = json.load(openfile)
     return json_object
 
@@ -117,11 +137,6 @@ def reverseReqs(major):
     json_object = json.dumps(reverse, indent=4)
     with open(f"rev-prereqs/{major}.json", "w") as outfile:
         outfile.write(json_object)
-
-def readPrereqs(major): 
-    with open(f"prereqs/{major}.json", 'r') as openfile:
-        json_object = json.load(openfile)
-    return json_object
 
 def makeFlowChart(major):
     valid_nodes = {}
@@ -142,7 +157,6 @@ def makeFlowChart(major):
 
     li = sorted(li, key=lambda x: x[0])
     keys = [x[0] for x in li]
-    print(keys)
     with open(f"prereqs/{major}-list.txt", "w") as f:
         f.write(str(keys))
 
@@ -153,7 +167,7 @@ def makeFlowChart(major):
     colorint = 0
     colors = ['red', 'orange', 'yellow', 'yellowgreen', 'green', 'blue', 'indigo', 'violet']
 
-    with schemdraw.Drawing() as dwg:
+    with schemdraw.Drawing(show=False) as dwg:
         for pair in li:
             parent = pair[0]
             children = pair[1]
@@ -224,4 +238,6 @@ def makeFlowChart(major):
 
 major = "Mathematics"     
 # getAllClasses(major)     
-reverseReqs(major)
+# getPrereqs(major)
+# reverseReqs(major)
+makeFlowChart(major)
