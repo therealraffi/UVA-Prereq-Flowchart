@@ -160,8 +160,10 @@ function main(reverse, major) {
     if (reverse) {
         $('.node').click(function () {
 
+            $(".hasChild").css("background-color", "aquamarine")
+            $(".noChild").css("background-color", "rgb(237, 255, 249)")
+
             $(".arrow").hide()
-            $(".node").css("background-color", "aquamarine")
             var visited = new Set()
 
             idName = String(this.id)
@@ -199,7 +201,6 @@ function main(reverse, major) {
             $(".arrow").hide()
             $(".hasChild").css("background-color", "aquamarine")
             $(".noChild").css("background-color", "rgb(237, 255, 249)")
-            $(".arrow-" + idName).show()
 
             var visited = new Set()
             var hind = 0
@@ -247,5 +248,4 @@ function main(reverse, major) {
             $("#" + idName).css("background-color", "rgb(150,255,255)")
         });
     }
-
 }

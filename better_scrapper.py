@@ -44,6 +44,8 @@ def getClasses(major, sem):
         try:
             class_id = a_href.get_text()
             href = str(href)
+            class_title = href.split('<tr class="Section')[1]
+            print(class_title)
             class_name = href.split('<tr class="Section')[1].split('"')[0].split(" ")[-1]
             try:
                 int(class_id)
@@ -287,10 +289,10 @@ def updateScript():
 majors = ["CompSci"]
 # majors = readMajors()
 
-# for major in majors:
-#     # getAllClasses(major)     
+for major in majors:
+    getAllClasses(major)     
 #     # getPrereqs(major)
 #     # reverseReqs(major)
 #     getValidFiles(major)
 
-updateScript()
+# updateScript()
